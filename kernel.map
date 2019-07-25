@@ -1,0 +1,171 @@
+Archive member included to satisfy reference by file (symbol)
+
+lib/libstd.a(printf.o)        obj/kernel_main.o (printf)
+lib/libstd.a(string.o)        lib/libstd.a(printf.o) (strlen)
+
+Discarded input sections
+
+ .group         0x0000000000000000        0x8 obj/kernel_main.o
+ .group         0x0000000000000000        0x8 obj/kernel_main.o
+ .group         0x0000000000000000        0x8 obj/textmode.o
+ .group         0x0000000000000000        0x8 obj/textmode.o
+ .group         0x0000000000000000        0x8 obj/textmode.o
+ .group         0x0000000000000000        0x8 obj/textmode.o
+ .text.__x86.get_pc_thunk.ax
+                0x0000000000000000        0x4 obj/textmode.o
+ .text.__x86.get_pc_thunk.bx
+                0x0000000000000000        0x4 obj/textmode.o
+ .group         0x0000000000000000        0x8 lib/libstd.a(printf.o)
+ .text.__x86.get_pc_thunk.bx
+                0x0000000000000000        0x4 lib/libstd.a(printf.o)
+ .group         0x0000000000000000        0x8 lib/libstd.a(string.o)
+ .group         0x0000000000000000        0x8 lib/libstd.a(string.o)
+ .text.__x86.get_pc_thunk.ax
+                0x0000000000000000        0x4 lib/libstd.a(string.o)
+ .text.__x86.get_pc_thunk.cx
+                0x0000000000000000        0x4 lib/libstd.a(string.o)
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+LOAD obj/boot.o
+LOAD obj/kernel_main.o
+LOAD obj/textmode.o
+                0x0000000000100000                . = 0x100000
+
+.text           0x0000000000100000      0x950
+ *(.multiboot)
+ .multiboot     0x0000000000100000        0xc obj/boot.o
+ *(.text)
+ *fill*         0x000000000010000c        0x4 
+ .text          0x0000000000100010        0xe obj/boot.o
+                0x0000000000100010                _start
+ .text          0x000000000010001e      0x158 obj/kernel_main.o
+                0x000000000010001e                init
+                0x0000000000100104                kernel_loop
+                0x0000000000100118                kernel_main
+ .text          0x0000000000100176      0x42c obj/textmode.o
+                0x0000000000100176                vga_set_bg
+                0x00000000001001b1                vga_set_fg
+                0x00000000001001eb                vga_set_color
+                0x0000000000100213                vga_print_char
+                0x0000000000100289                vga_increment
+                0x00000000001002ba                vga_sync_frame
+                0x000000000010030d                vga_clear
+                0x000000000010036c                vga_movexy
+                0x00000000001003b5                vga_param
+                0x00000000001003ef                vga_scroll
+                0x00000000001004b5                vga_newline
+                0x00000000001004f2                vga_home
+                0x0000000000100539                vga_return
+                0x0000000000100557                vga_tab
+ .text          0x00000000001005a2      0x1a6 lib/libstd.a(printf.o)
+                0x00000000001005a2                printf
+ .text          0x0000000000100748      0x208 lib/libstd.a(string.o)
+                0x0000000000100748                strlen
+                0x0000000000100785                reverse
+                0x000000000010083a                itoa
+
+.iplt           0x0000000000100950        0x0
+ .iplt          0x0000000000100950        0x0 obj/boot.o
+
+.text.__x86.get_pc_thunk.ax
+                0x0000000000100950        0x4
+ .text.__x86.get_pc_thunk.ax
+                0x0000000000100950        0x4 obj/kernel_main.o
+                0x0000000000100950                __x86.get_pc_thunk.ax
+
+.text.__x86.get_pc_thunk.bx
+                0x0000000000100954        0x4
+ .text.__x86.get_pc_thunk.bx
+                0x0000000000100954        0x4 obj/kernel_main.o
+                0x0000000000100954                __x86.get_pc_thunk.bx
+
+.text.__x86.get_pc_thunk.dx
+                0x0000000000100958        0x4
+ .text.__x86.get_pc_thunk.dx
+                0x0000000000100958        0x4 obj/textmode.o
+                0x0000000000100958                __x86.get_pc_thunk.dx
+
+.text.__x86.get_pc_thunk.cx
+                0x000000000010095c        0x4
+ .text.__x86.get_pc_thunk.cx
+                0x000000000010095c        0x4 obj/textmode.o
+                0x000000000010095c                __x86.get_pc_thunk.cx
+
+.rodata         0x0000000000101000      0x131
+ *(.rodata)
+ .rodata        0x0000000000101000       0xf6 obj/kernel_main.o
+ .rodata        0x00000000001010f6        0x7 lib/libstd.a(printf.o)
+ *fill*         0x00000000001010fd        0x3 
+ .rodata        0x0000000000101100       0x31 lib/libstd.a(string.o)
+
+.eh_frame       0x0000000000101134      0x338
+ .eh_frame      0x0000000000101134       0xa8 obj/kernel_main.o
+ .eh_frame      0x00000000001011dc      0x204 obj/textmode.o
+                                        0x244 (size before relaxing)
+ .eh_frame      0x00000000001013e0       0x24 lib/libstd.a(printf.o)
+                                         0x50 (size before relaxing)
+ .eh_frame      0x0000000000101404       0x68 lib/libstd.a(string.o)
+                                         0xa8 (size before relaxing)
+
+.rel.dyn        0x000000000010146c        0x0
+ .rel.got       0x000000000010146c        0x0 obj/boot.o
+ .rel.iplt      0x000000000010146c        0x0 obj/boot.o
+
+.data           0x0000000000102000       0x15
+ *(.data)
+ .data          0x0000000000102000        0x0 obj/kernel_main.o
+ .data          0x0000000000102000       0x14 obj/textmode.o
+                0x0000000000102000                VRAM
+                0x0000000000102004                VGABUFFER
+                0x0000000000102008                VGACOLOR
+                0x000000000010200c                VGACURSOR
+                0x0000000000102010                VGAPARAM
+ .data          0x0000000000102014        0x0 lib/libstd.a(printf.o)
+ .data          0x0000000000102014        0x1 lib/libstd.a(string.o)
+                0x0000000000102014                itoa_long
+
+.got            0x0000000000102018        0x0
+ .got           0x0000000000102018        0x0 obj/boot.o
+
+.got.plt        0x0000000000102018        0xc
+ .got.plt       0x0000000000102018        0xc obj/boot.o
+                0x0000000000102018                _GLOBAL_OFFSET_TABLE_
+
+.igot.plt       0x0000000000102024        0x0
+ .igot.plt      0x0000000000102024        0x0 obj/boot.o
+
+.bss            0x0000000000103000     0x4004
+ *(COMMON)
+ *(.bss)
+ .bss           0x0000000000103000     0x4000 obj/boot.o
+ .bss           0x0000000000107000        0x0 obj/kernel_main.o
+ .bss           0x0000000000107000        0x0 obj/textmode.o
+ .bss           0x0000000000107000        0x0 lib/libstd.a(printf.o)
+ .bss           0x0000000000107000        0x4 lib/libstd.a(string.o)
+                0x0000000000107000                itoa_case
+LOAD lib/libstd.a
+OUTPUT(bin/coffee elf32-i386)
+
+.comment        0x0000000000000000       0x2a
+ .comment       0x0000000000000000       0x2a obj/kernel_main.o
+                                         0x2b (size before relaxing)
+ .comment       0x000000000000002a       0x2b obj/textmode.o
+ .comment       0x000000000000002a       0x2b lib/libstd.a(printf.o)
+ .comment       0x000000000000002a       0x2b lib/libstd.a(string.o)
+
+.note.GNU-stack
+                0x0000000000000000        0x0
+ .note.GNU-stack
+                0x0000000000000000        0x0 obj/kernel_main.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 obj/textmode.o
+ .note.GNU-stack
+                0x0000000000000000        0x0 lib/libstd.a(printf.o)
+ .note.GNU-stack
+                0x0000000000000000        0x0 lib/libstd.a(string.o)

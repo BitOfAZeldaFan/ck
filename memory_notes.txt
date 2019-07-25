@@ -1,0 +1,12 @@
+This is just a list of memory locations I'm using to store important global 
+variables. Eventually I'll implement these in code with better documentation, 
+but for now the docs live here.
+
+First memory segment free for use is at 0x400.
+I'll split it into 16 bit words, each word being a global variable. 
+Probably.
+
+Word      Function
+0x400     Textmode cursor position (in units of characters starting at 0)
+0x401     VGA textmode foreground color
+0x402     VGA textmode background color
