@@ -1,5 +1,5 @@
-#define CK_BUILD  123456789
-#define CK_VERSION 12345
+#define CK_BUILD  122
+#define CK_VERSION 1
 // ========================================================================== //
 // = C/K Project 2019 - Bryan Webb
 // = Main kernel start point
@@ -22,35 +22,33 @@ static const char logo[]= {
 };
 
 int init()
-{
-     // Set up VGA text mode parameters
-     vga_set_color(C_MSDOS);
-     // Turn on all options and set blank char to space
-     vga_param(0xff, ' ');
-     vga_clear();    
+{     
+     /* Handle memory tasks */
+     uint8_t *low_memory = (uint8_t*)0x0;    // Clear the first 511 kb of RAM
+     for(int i=0; i<511*1024; i++) {
+          low_memory[i] = 0;
+     }
      
+     /* Set up the display */
+     vga_set_color(0x05);       // Set up VGA text mode parameters     
+     vga_param(0xff, ' ');         // Turn on all options and set blank char to space
+     vga_clear();                  // Clear the screen     
+     printf("%s", logo);           // Print a nice welcome text
      
-     // Print a nice welcome text
-     printf("%s", logo);
-     
+     vga_set_color(0x07);
      vga_movexy(20,0); printf("Coffee Kernel - (Experimental)");
      vga_movexy(20,1); printf("Alpha version 0.%i.%i", CK_VERSION, CK_BUILD);
-     int status = vga_movexy(20,4);
-     if(!status) {
-          printf("(C) 2019 Bryan Webb");
-     }
-     else {
-          printf("Error moving cursor: %i", status);
-     }
      
      return 0;
 }
 
-/**  Function: kernel_loop
- *   Purpose:  Primary kernel running loop. This is where everything interesting
- *              happens inside the kernel after it initializes shit. 
- *   Returns:  0 if the loop encountered no problems.
+/**  @Function kernel_loop()
+ *   @Returns  0 if the loop encountered no problems.
                Other return values indicate a different error.
+               
+ *   Primary kernel running loop. This is where everything interesting
+ *    happens inside the kernel after it initializes shit. 
+ *   
  */
 int kernel_loop()
 {
@@ -67,9 +65,9 @@ int kernel_main()
      
      while(true)
      {
-          status = kernel_loop();
+          status = kernel_loop();  // Continuously execute the kernel loop
           if(status == 0) { 
-               continue; 
+               continue;           // Keep running if everything is OK
           }
           else {
                vga_set_color(C_ERROR);

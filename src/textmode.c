@@ -6,6 +6,7 @@
 
 #include <textmode.h>
 #include <stdio.h>
+#include <mmap.h>
 
 // Standard text mode parameters
 #define VGA_SIZE    2000 // Number of characters in 80 x 25 text mode
@@ -14,11 +15,11 @@
 
 // Static memory addresses for VGA functions
 // @todo: need to keep better track of these!
-volatile vga_char_t *VRAM = (vga_char_t*)0xb8000;
-volatile vga_char_t *VGABUFFER = (vga_char_t*)0x500;
-volatile color_t    *VGACOLOR = (color_t*)0x14a0;
-volatile word       *VGACURSOR = (word*)0x14a1;
-volatile vga_param_t*VGAPARAM = (vga_param_t*)0x14a2;
+volatile vga_char_t *VRAM = (vga_char_t*) __vram_addr;
+volatile vga_char_t *VGABUFFER = (vga_char_t*) __vga_buffer_addr;
+volatile color_t    *VGACOLOR = (color_t*)__vga_color_addr;
+volatile word       *VGACURSOR = (word*)__vga_cursor_addr;
+volatile vga_param_t*VGAPARAM = (vga_param_t*)__vga_param_addr;
 
 // ========================================================================== // 
 //  Private functions Declaration
@@ -43,12 +44,14 @@ int vga_tab(void);            // Prints a tab character
  */
 int vga_set_bg(color_t color)
 {
+     // Sets the high 4 bits to the color provided
      *VGACOLOR = (*VGACOLOR & 0x0F) | (color << 4);
      return 0;
 }
 
 int vga_set_fg(color_t color)
 {
+     // Sets the lower 4 bits to the color provided
      *VGACOLOR = (*VGACOLOR & 0xF0) | (color & 0x0F);     
      return 0;
 }
