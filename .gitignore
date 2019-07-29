@@ -1,5 +1,4 @@
 #list of files to be ignored by git
-
 kernel.map
 obj/*
 bin/*
