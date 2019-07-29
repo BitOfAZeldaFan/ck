@@ -8,12 +8,7 @@ Discarded input sections
  .group         0x0000000000000000        0x8 obj/kernel_main.o
  .group         0x0000000000000000        0x8 obj/kernel_main.o
  .group         0x0000000000000000        0x8 obj/textmode.o
- .group         0x0000000000000000        0x8 obj/textmode.o
- .group         0x0000000000000000        0x8 obj/textmode.o
- .group         0x0000000000000000        0x8 obj/textmode.o
  .text.__x86.get_pc_thunk.ax
-                0x0000000000000000        0x4 obj/textmode.o
- .text.__x86.get_pc_thunk.bx
                 0x0000000000000000        0x4 obj/textmode.o
  .group         0x0000000000000000        0x8 lib/libstd.a(printf.o)
  .text.__x86.get_pc_thunk.bx
@@ -21,8 +16,6 @@ Discarded input sections
  .group         0x0000000000000000        0x8 lib/libstd.a(string.o)
  .group         0x0000000000000000        0x8 lib/libstd.a(string.o)
  .text.__x86.get_pc_thunk.ax
-                0x0000000000000000        0x4 lib/libstd.a(string.o)
- .text.__x86.get_pc_thunk.cx
                 0x0000000000000000        0x4 lib/libstd.a(string.o)
 
 Memory Configuration
@@ -37,108 +30,99 @@ LOAD obj/kernel_main.o
 LOAD obj/textmode.o
                 0x0000000000100000                . = 0x100000
 
-.text           0x0000000000100000      0x93d
+.text           0x0000000000100000      0xa89
  *(.multiboot)
  .multiboot     0x0000000000100000        0xc obj/boot.o
  *(.text)
  *fill*         0x000000000010000c        0x4 
  .text          0x0000000000100010        0xe obj/boot.o
                 0x0000000000100010                _start
- .text          0x000000000010001e      0x145 obj/kernel_main.o
+ .text          0x000000000010001e      0x1a4 obj/kernel_main.o
                 0x000000000010001e                init
-                0x00000000001000f1                kernel_loop
-                0x0000000000100105                kernel_main
- .text          0x0000000000100163      0x42c obj/textmode.o
-                0x0000000000100163                vga_set_bg
-                0x000000000010019e                vga_set_fg
-                0x00000000001001d8                vga_set_color
-                0x0000000000100200                vga_print_char
-                0x0000000000100276                vga_increment
-                0x00000000001002a7                vga_sync_frame
-                0x00000000001002fa                vga_clear
-                0x0000000000100359                vga_movexy
-                0x00000000001003a2                vga_param
-                0x00000000001003dc                vga_scroll
-                0x00000000001004a2                vga_newline
-                0x00000000001004df                vga_home
-                0x0000000000100526                vga_return
-                0x0000000000100544                vga_tab
- .text          0x000000000010058f      0x1a6 lib/libstd.a(printf.o)
-                0x000000000010058f                printf
- .text          0x0000000000100735      0x208 lib/libstd.a(string.o)
-                0x0000000000100735                strlen
-                0x0000000000100772                reverse
-                0x0000000000100827                itoa
+                0x0000000000100150                kernel_loop
+                0x0000000000100164                kernel_main
+ .text          0x00000000001001c2      0x519 obj/textmode.o
+                0x00000000001001c2                vga_set_bg
+                0x00000000001001fb                vga_set_fg
+                0x0000000000100233                vga_set_color
+                0x000000000010025a                vga_print_char
+                0x00000000001002cb                vga_increment
+                0x00000000001002fb                vga_sync_frame
+                0x0000000000100346                vga_clear
+                0x000000000010039d                vga_movexy
+                0x00000000001003e2                vga_param
+ .text          0x00000000001006db      0x1a6 lib/libstd.a(printf.o)
+                0x00000000001006db                printf
+ .text          0x0000000000100881      0x208 lib/libstd.a(string.o)
+                0x0000000000100881                strlen
+                0x00000000001008be                reverse
+                0x0000000000100973                itoa
 
-.iplt           0x0000000000100940        0x0
- .iplt          0x0000000000100940        0x0 obj/boot.o
+.iplt           0x0000000000100a90        0x0
+ .iplt          0x0000000000100a90        0x0 obj/boot.o
 
 .text.__x86.get_pc_thunk.ax
-                0x000000000010093d        0x4
+                0x0000000000100a89        0x4
  .text.__x86.get_pc_thunk.ax
-                0x000000000010093d        0x4 obj/kernel_main.o
-                0x000000000010093d                __x86.get_pc_thunk.ax
+                0x0000000000100a89        0x4 obj/kernel_main.o
+                0x0000000000100a89                __x86.get_pc_thunk.ax
 
 .text.__x86.get_pc_thunk.bx
-                0x0000000000100941        0x4
+                0x0000000000100a8d        0x4
  .text.__x86.get_pc_thunk.bx
-                0x0000000000100941        0x4 obj/kernel_main.o
-                0x0000000000100941                __x86.get_pc_thunk.bx
-
-.text.__x86.get_pc_thunk.dx
-                0x0000000000100945        0x4
- .text.__x86.get_pc_thunk.dx
-                0x0000000000100945        0x4 obj/textmode.o
-                0x0000000000100945                __x86.get_pc_thunk.dx
+                0x0000000000100a8d        0x4 obj/kernel_main.o
+                0x0000000000100a8d                __x86.get_pc_thunk.bx
 
 .text.__x86.get_pc_thunk.cx
-                0x0000000000100949        0x4
+                0x0000000000100a91        0x4
  .text.__x86.get_pc_thunk.cx
-                0x0000000000100949        0x4 obj/textmode.o
-                0x0000000000100949                __x86.get_pc_thunk.cx
+                0x0000000000100a91        0x4 lib/libstd.a(string.o)
+                0x0000000000100a91                __x86.get_pc_thunk.cx
 
-.rodata         0x0000000000101000      0x111
+.rodata         0x0000000000101000      0x151
  *(.rodata)
- .rodata        0x0000000000101000       0xca obj/kernel_main.o
- .rodata        0x00000000001010ca        0x7 lib/libstd.a(printf.o)
- *fill*         0x00000000001010d1        0xf 
- .rodata        0x00000000001010e0       0x31 lib/libstd.a(string.o)
+ .rodata        0x0000000000101000       0xea obj/kernel_main.o
+ *fill*         0x00000000001010ea        0x2 
+ .rodata        0x00000000001010ec       0x14 obj/textmode.o
+                0x00000000001010ec                VRAM
+                0x00000000001010f0                VGABUFFER
+                0x00000000001010f4                VGACOLOR
+                0x00000000001010f8                VGACURSOR
+                0x00000000001010fc                VGAPARAM
+ .rodata        0x0000000000101100        0x7 lib/libstd.a(printf.o)
+ *fill*         0x0000000000101107       0x19 
+ .rodata        0x0000000000101120       0x31 lib/libstd.a(string.o)
 
-.eh_frame       0x0000000000101114      0x338
- .eh_frame      0x0000000000101114       0xa8 obj/kernel_main.o
- .eh_frame      0x00000000001011bc      0x204 obj/textmode.o
-                                        0x244 (size before relaxing)
+.eh_frame       0x0000000000101154      0x30c
+ .eh_frame      0x0000000000101154       0xa8 obj/kernel_main.o
+ .eh_frame      0x00000000001011fc      0x1c4 obj/textmode.o
+                                        0x1f0 (size before relaxing)
  .eh_frame      0x00000000001013c0       0x24 lib/libstd.a(printf.o)
                                          0x50 (size before relaxing)
- .eh_frame      0x00000000001013e4       0x68 lib/libstd.a(string.o)
+ .eh_frame      0x00000000001013e4       0x7c lib/libstd.a(string.o)
                                          0xa8 (size before relaxing)
 
-.rel.dyn        0x000000000010144c        0x0
- .rel.got       0x000000000010144c        0x0 obj/boot.o
- .rel.iplt      0x000000000010144c        0x0 obj/boot.o
+.rel.dyn        0x0000000000101460        0x0
+ .rel.got       0x0000000000101460        0x0 obj/boot.o
+ .rel.iplt      0x0000000000101460        0x0 obj/boot.o
 
-.data           0x0000000000102000       0x15
+.data           0x0000000000102000        0x1
  *(.data)
  .data          0x0000000000102000        0x0 obj/kernel_main.o
- .data          0x0000000000102000       0x14 obj/textmode.o
-                0x0000000000102000                VRAM
-                0x0000000000102004                VGABUFFER
-                0x0000000000102008                VGACOLOR
-                0x000000000010200c                VGACURSOR
-                0x0000000000102010                VGAPARAM
- .data          0x0000000000102014        0x0 lib/libstd.a(printf.o)
- .data          0x0000000000102014        0x1 lib/libstd.a(string.o)
-                0x0000000000102014                itoa_long
+ .data          0x0000000000102000        0x0 obj/textmode.o
+ .data          0x0000000000102000        0x0 lib/libstd.a(printf.o)
+ .data          0x0000000000102000        0x1 lib/libstd.a(string.o)
+                0x0000000000102000                itoa_long
 
-.got            0x0000000000102018        0x0
- .got           0x0000000000102018        0x0 obj/boot.o
+.got            0x0000000000102004        0x0
+ .got           0x0000000000102004        0x0 obj/boot.o
 
-.got.plt        0x0000000000102018        0xc
- .got.plt       0x0000000000102018        0xc obj/boot.o
-                0x0000000000102018                _GLOBAL_OFFSET_TABLE_
+.got.plt        0x0000000000102004        0xc
+ .got.plt       0x0000000000102004        0xc obj/boot.o
+                0x0000000000102004                _GLOBAL_OFFSET_TABLE_
 
-.igot.plt       0x0000000000102024        0x0
- .igot.plt      0x0000000000102024        0x0 obj/boot.o
+.igot.plt       0x0000000000102010        0x0
+ .igot.plt      0x0000000000102010        0x0 obj/boot.o
 
 .bss            0x0000000000103000     0x4004
  *(COMMON)

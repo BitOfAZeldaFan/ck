@@ -1,6 +1,6 @@
 // ========================================================================== //
 // = C/K Project 2019 - Bryan Webb
-// = File:     include/mmap.h
+// = File:     include/mman.h
 // = Purpose:  Map of memory - contains defines that map global kernel values
 // ========================================================================== //
 
@@ -24,12 +24,33 @@ enum __KERNEL_GLOBALS
      
      /* 32 bytes of free memory at the start of RAM for things */
      
+     /* VGA data */
      __vga_buffer_addr   = 0x00000020,  // 4000 bytes 
      __vga_color_addr    = 0x00000fc0,  // 1 byte
                          /* 1b free */
      __vga_cursor_addr   = 0x00000fc2,  // 2 bytes
      __vga_param_addr    = 0x00000fc4,  // 2 bytes
+                         /* 4 bytes buffer */
+     
+     /* Memory table data */
+     __mtable_free_size  = 0x00000fc8,  // size_t 4 bytes
+     __mtable_used_size  = 0x00000fcc,  // size_t 4 bytes
+     __mtable_mmap_size  = 0x00000fd0,  // size_t 4 bytes
+     __mtable_free       = 0x00200000,  // Third megabyte
+     __mtable_used       = 0x00300000,  // Fourth megabyte
      
      
      
 };
+
+/**  Data structure that is used for the memory maps. It's an 8-byte struct
+ *    that holds one byte of flags, three bytes of size data, and a four byte
+ *    base address.
+ */
+typedef struct __MEMORY_TABLE_T
+{
+     uint8_t   flags :8;
+     size_t    size  :24;
+     uint32_t  addr;
+     
+} packed mtable_t;

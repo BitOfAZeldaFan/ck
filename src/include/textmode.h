@@ -10,17 +10,6 @@
 #include <types.h>
 #include <colors.h>
 
-#define VGA_TABWIDTH     5
-
-/** Enumeration that refers to various VGA parameters to be set by
- *   the vga_param() system call.
- */
-enum __VGAPARAM_FIELDS
-{
-     VGAPARAM_SCROLL = 0b1000000,
-     VGAPARAM_CURSOR = 0b0100000,
-};
-
 /** Structure that defines the two bytes in a word in VRAM. They contain the
  *   attribute field (essentially color, but also a blink bit (?)) and the 
  *   ASCII value that is printed to screen. Depending on the motherboard, values
@@ -30,21 +19,31 @@ typedef struct __CHAR_T
 {
      byte   character;
      byte   color;
-} packed vga_char_t;
+     
+} packed vgachar_t;
 
 
 /** VGA Parameters structure - A word of data that contains an 8-bit field for
  *   switching settings, and then a character that represents the blank char.
- *  Bitfields - [0][1][2][3][4][5][6][7]
- *   0- Text scrolling on/off
- *   1- Cursor on/off (todo: implement!)
- *   2 through 7 not used yet
  */
 typedef struct __VGA_PARAM
 {
-     byte field;
-     byte blank;     
-} packed vga_param_t;
+     byte scroll :1;     // Enable/disable screen scrolling
+     byte cursor :1;     // Enable/disable text cursor
+     byte topbar :1;     // Enable/disable static top bar
+     byte tabs   :3;     // Width of tab space (1-8 spaces)
+     byte p7     :1;
+     byte p8     :1;
+     
+     byte blank;    
+      
+} packed vgaparam_t;
+
+enum __VGA_PARAM_NAMES
+{
+     _vgascroll, _vgacursor, _vgatopbar, _vgatabs,
+     __p3, __p4, __p5, __p6, __p7,
+};
 
 int vga_param(byte, byte);   // Sets vga driver parameters
 

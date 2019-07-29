@@ -12,13 +12,14 @@
 #include <types.h>
 #include <stdio.h>
 #include <string.h>
+#include <mman.h>
 
 static const char logo[]= {
-32, 32, 32,177,177,177, 32, 32, 32, 32, 32,177, 32,177,177, 32, 32,177,177,'\n',
-32,177,177, 32, 32, 32, 32, 32, 32, 32,177, 32, 32,177,177,32,177,'\n',
-32,177,177, 32, 32, 32, 32, 32, 32,177, 32, 32, 32,177,177,177,'\n',
-32,177,177, 32, 32, 32, 32, 32,177, 32, 32, 32, 32,177,177,32,177,'\n',
-32, 32, 32,177,177,177, 32,177, 32, 32, 32, 32, 32,177,177, 32, 32,177,177,'\0'
+32, 32, 32,177,177,177, 32, 32, 32, 32, 32,177, 32,177,177, 32, 32,177,177,'\t', '|','\n',
+32,177,177, 32, 32, 32, 32, 32, 32, 32,177, 32, 32,177,177,32,177,'\t', '|','\n',
+32,177,177, 32, 32, 32, 32, 32, 32,177, 32, 32, 32,177,177,177,'\t', '|','\n',
+32,177,177, 32, 32, 32, 32, 32,177, 32, 32, 32, 32,177,177,32,177,'\t', '|','\n',
+32, 32, 32,177,177,177, 32,177, 32, 32, 32, 32, 32,177,177, 32, 32,177,177,'\t', '|','\0'
 };
 
 int init()
@@ -30,14 +31,19 @@ int init()
      }
      
      /* Set up the display */
-     vga_set_color(0x05);       // Set up VGA text mode parameters     
-     vga_param(0xff, ' ');         // Turn on all options and set blank char to space
+     vga_set_color(0x05);          // Set up VGA text mode parameters     
+     vga_param(0xff, ' ');         // Set blank char to space
+     vga_param(0x00, 1);           // Turn on scrolling
+     vga_param(0x01, 1);           // Turn on cursor
+     vga_param(0x02, 0);           // Disable top bar
+     vga_param(0x03, 5);           // Set the tab width
      vga_clear();                  // Clear the screen     
      printf("%s", logo);           // Print a nice welcome text
      
      vga_set_color(0x07);
      vga_movexy(20,0); printf("Coffee Kernel - (Experimental)");
      vga_movexy(20,1); printf("Alpha version 0.%i.%i", CK_VERSION, CK_BUILD);
+     vga_movexy(20,2); printf("Size of mtable_t: %i", sizeof(mtable_t));
      
      return 0;
 }

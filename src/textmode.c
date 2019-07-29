@@ -6,7 +6,7 @@
 
 #include <textmode.h>
 #include <stdio.h>
-#include <mmap.h>
+#include <mman.h>
 
 // Standard text mode parameters
 #define VGA_SIZE    2000 // Number of characters in 80 x 25 text mode
@@ -15,20 +15,20 @@
 
 // Static memory addresses for VGA functions
 // @todo: need to keep better track of these!
-volatile vga_char_t *VRAM = (vga_char_t*) __vram_addr;
-volatile vga_char_t *VGABUFFER = (vga_char_t*) __vga_buffer_addr;
-volatile color_t    *VGACOLOR = (color_t*)__vga_color_addr;
-volatile word       *VGACURSOR = (word*)__vga_cursor_addr;
-volatile vga_param_t*VGAPARAM = (vga_param_t*)__vga_param_addr;
+volatile vgachar_t  *const VRAM = (vgachar_t*) __vram_addr;
+volatile vgachar_t  *const VGABUFFER = (vgachar_t*) __vga_buffer_addr;
+volatile color_t    *const VGACOLOR = (color_t*)__vga_color_addr;
+volatile word       *const VGACURSOR = (word*)__vga_cursor_addr;
+volatile vgaparam_t *const VGAPARAM = (vgaparam_t*)__vga_param_addr;
 
 // ========================================================================== // 
 //  Private functions Declaration
 // ========================================================================== //
-int vga_scroll(void);         // Scrolls the screen by one row
-int vga_return(void);         // Implements combined newline (\n) and CR (\r)
-int vga_home(void);           // Homes cursor to column 0
-int vga_newline(void);        // Increases row by 1
-int vga_tab(void);            // Prints a tab character
+static int vga_scroll(void);         // Scrolls the screen by one row
+static int vga_return(void);         // Combined newline (\n) and CR (\r)
+static int vga_home(void);           // Homes cursor to column 0
+static int vga_newline(void);        // Increases row by 1
+static int vga_tab(void);            // Prints a tab character
 
 // ========================================================================== // 
 //  Public functions Implementation
@@ -169,10 +169,29 @@ int vga_movexy(int x, int y)
  *    the bitfields are not used yet, but they might be implemented. If one
  *    parameters don't make sense, the function will return with an error.
  */
-int vga_param(byte field, byte blank)
+int vga_param(byte field, byte value)
 {
-     VGAPARAM->field = field;
-     VGAPARAM->blank = blank;
+     switch(field)
+     {
+          case 0:
+               VGAPARAM->scroll = value;
+               break;
+          case 1:
+               VGAPARAM->cursor = value;
+               break;
+          case 2:
+               VGAPARAM->topbar = value;
+               break;               
+          case 3:
+               VGAPARAM->tabs = value;
+               break;
+               
+          case 255:
+               VGAPARAM->blank = value;
+               break;
+          
+          default: return 1; break;
+     }
      return 0;
 }
 
@@ -189,14 +208,23 @@ int vga_param(byte field, byte blank)
  *    row with blank characters.
  *   If scrolling is disabled, function does nothing and returns 2.
  */  
-int vga_scroll(void)
+static int vga_scroll(void)
 {    
      // Check is scrolling is enabled
-     if(VGAPARAM->field & 0b01000000) {
-          // Copy row by row
-          for(int i=80;i<VGA_SIZE;i++){
-               VGABUFFER[i-80] = VGABUFFER[i];
+     if(VGAPARAM->scroll) {
+          // Check if top bar is enabled
+          if(VGAPARAM->topbar) {
+               // First row is used by top bar, so we can't scroll it away.
+               for(int i=160;i<VGA_SIZE;i++){
+                    VGABUFFER[i-160] = VGABUFFER[i];
+               }
+          } else {
+               // No top bar, so we can scroll the first row
+               for(int i=80;i<VGA_SIZE;i++){
+                    VGABUFFER[i-80] = VGABUFFER[i];
+               }
           }
+               
           // Clear the last row
           for(int i=VGA_SIZE-MAX_COLS;i<VGA_SIZE;i++) {
                VGABUFFER[i].character = VGAPARAM->blank;
@@ -217,30 +245,35 @@ int vga_scroll(void)
  *    send the cursor down one line or to the beginning of the line, respectivly.
  *    Use these for implementing '\n' and '\r' escape characters. 
  */
-int vga_newline(void)
+static int vga_newline(void)
 {
      // Subtracting 1 because print_char auto increments cursor (bad idea?)
      *VGACURSOR = *VGACURSOR + MAX_COLS - 1;
-     // Check if screen needs to scroll
+     // Check if screen needs to scroll. Whether or not scrolling is set
+     //  is set in the scroll() function
      if(*VGACURSOR > VGA_SIZE) {
           vga_scroll();
      }
      return 0;
 }
-int vga_home(void)
+static int vga_home(void)
 {
      *VGACURSOR = *VGACURSOR - *VGACURSOR % MAX_COLS;
      return 0;
 }
-int vga_return(void)
+static int vga_return(void)
 {
      vga_home();
      vga_newline();
      return 0;
 }
-int vga_tab(void)
+static int vga_tab(void)
 {
-     for(int i=0;i<VGA_TABWIDTH;i++) {
+     // Calculate the number of spaces to add to line up with the tab
+     int num_tabs = *VGACURSOR % VGAPARAM->tabs;
+     if(num_tabs == 0) num_tabs = VGAPARAM->tabs;
+     // Print the desired number of tab characters
+     for(int i=0;i<num_tabs;i++) {
           vga_print_char(VGAPARAM->blank);
           vga_increment();
      }
