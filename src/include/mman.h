@@ -30,12 +30,16 @@ enum __KERNEL_GLOBALS
                          /* 1b free */
      __vga_cursor_addr   = 0x00000fc2,  // 2 bytes
      __vga_param_addr    = 0x00000fc4,  // 2 bytes
-                         /* 4 bytes buffer */
+                         /* 2 bytes buffer */
      
      /* Memory table data */
      __mtable_free_size  = 0x00000fc8,  // size_t 4 bytes
      __mtable_used_size  = 0x00000fcc,  // size_t 4 bytes
      __mtable_mmap_size  = 0x00000fd0,  // size_t 4 bytes
+     __gdt_size          = 0x00000fd4,  // size_t 4 bytes
+                         /* 36 bytes free */
+     __gdt_base_addr     = 0x00001000,  // Starting at 4kb mark
+                         /* Assume 1kb for GDT (128 entries) */
      __mtable_free       = 0x00200000,  // Third megabyte
      __mtable_used       = 0x00300000,  // Fourth megabyte
      

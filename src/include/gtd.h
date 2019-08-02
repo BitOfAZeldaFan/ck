@@ -4,6 +4,9 @@
 // = Purpose:  Typedef for global descriptor table
 // ========================================================================== //
 
+#ifndef GDT_H_INCLUDED
+#define GDT_H_INCLUDED
+
 typedef struct __GDT_T
 {
      uint16_t  limit_l;
@@ -17,3 +20,5 @@ typedef struct __GDT_T
 } packed gdt_t;
 
 void gtd_add_entry(word, word, word);
+
+#endif
