@@ -7,18 +7,29 @@
 #ifndef GDT_H_INCLUDED
 #define GDT_H_INCLUDED
 
-typedef struct __GDT_T
+#include <types.h>
+
+typedef struct __RAW_GDT_T
 {
-     uint16_t  limit_l;
      uint16_t  base_l;
-     uint8_t   base_h;
+     uint16_t  limit_l;
+     uint8_t   base_m;
      uint8_t   access;
-     uint8_t   limit:4;
+     uint8_t   limit_h:4;
      uint8_t   flags:4;
      uint8_t   base_h;
      
-} packed gdt_t;
+} packed raw_gdt_t;
 
-void gtd_add_entry(word, word, word);
+typedef struct __GDT_ENTRY_T
+{
+     uint32_t  base;
+     size_t    limit;
+     uint8_t   access;
+     uint8_t   flags;
+} packed gdt_entry_t;
+
+int gdt_add_entry(gdt_entry_t);
+int gdt_init();
 
 #endif

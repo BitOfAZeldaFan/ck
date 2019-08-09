@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <mman.h>
+#include <gdt.h>
 
 static const char logo[]= {
 32, 32, 32,177,177,177, 32, 32, 32, 32, 32,177, 32,177,177, 32, 32,177,177,'\t', '|','\n',
@@ -29,7 +30,6 @@ static const char logo[]= {
 int mem_init();
 int vga_init();
 int idt_init();
-int gdt_init();
 
 /**  @Function init_kernel()
  *   @Returns  0 on success
@@ -38,7 +38,8 @@ int gdt_init();
  *    and gets the kernel ready to enter KCM (Kernel Command Mode)
  */ 
 int init_kernel()
-{     
+{ 
+     gdt_init();   
      size_t memory = mem_init();
      vga_init();
        

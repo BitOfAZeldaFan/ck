@@ -11,6 +11,9 @@
  *   source file, those globals are saved as volatile const pointers. 
  *   That means the compiler doesn't optimize the value in its algorithms,
  *   and that nothing can change the memory address of the pointed to values.
+ *
+ *   Variables used should be defined as:
+ *        volatile type_t *const VARIABLE = (type_t*) 0xAddress
  *    
  *   All addresses up to 0x007FFFF should be free to use. That's 511 kb
  */
@@ -36,9 +39,10 @@ enum __KERNEL_GLOBALS
      __mtable_free_size  = 0x00000fc8,  // size_t 4 bytes
      __mtable_used_size  = 0x00000fcc,  // size_t 4 bytes
      __mtable_mmap_size  = 0x00000fd0,  // size_t 4 bytes
-     __gdt_size          = 0x00000fd4,  // size_t 4 bytes
                          /* 36 bytes free */
-     __gdt_base_addr     = 0x00001000,  // Starting at 4kb mark
+                         
+     __gdt_size          = 0x00001000,  // Starting at 4kb mark. Size is 2 bytes
+     __gdt_base_addr     = 0x00001002,  // gdt shouldn't be more than half a kb
                          /* Assume 1kb for GDT (128 entries) */
      __mtable_free       = 0x00200000,  // Third megabyte
      __mtable_used       = 0x00300000,  // Fourth megabyte

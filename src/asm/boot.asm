@@ -34,6 +34,19 @@ section .bss
 
 
 section .text
+
+gdtr DW 0
+     DD 0
+
+global reload_gdt:
+     mov  eax, [esp+4]   ; Pop the args off the stack into eax
+     mov  [gdtr+2], eax  ; Stick the args into the gdtr struct
+     mov  ax, [esp+8]    ; Pull off the high 8 bytes (?)
+     mov  [gdtr], ax     ; Stick the high 8 bytes into gdtr (for size??)
+     
+     ret
+     
+     
 global _start:function (_start.end - _start)
 _start:
 	; To set up a stack, we set the esp register to point to the top of our

@@ -170,7 +170,7 @@ function link {
 
 function run {
    printf "$INFO Executing C/K with QEMU...\n"
-   qemu-system-i386 -kernel bin/coffee $QFLAGS
+   qemu-system-i386 -kernel bin/coffee $QFLAGS -m 2G
 }
 
 
