@@ -45,9 +45,9 @@ int init_kernel()
        
      printf("%s", logo);           // Print a nice welcome text     
      vga_set_color(0x07);
-     vga_movexy(20,0); printf("Coffee Kernel - (Experimental)");
-     vga_movexy(20,1); printf("Alpha version 0.%i.%i", CK_VERSION, CK_BUILD);
-     vga_movexy(20,2); printf("%i bytes of memory detected", memory);
+     vga_movexy(28,0); printf("Coffee Kernel - (Experimental)");
+     vga_movexy(28,1); printf("Alpha version 0.%i.%i", CK_VERSION, CK_BUILD);
+     vga_movexy(28,2); printf("%i bytes of memory detected", memory);
      
      return 0;
 }

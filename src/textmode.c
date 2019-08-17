@@ -270,7 +270,7 @@ static int vga_return(void)
 static int vga_tab(void)
 {
      // Calculate the number of spaces to add to line up with the tab
-     int num_tabs = *VGACURSOR % VGAPARAM->tabs;
+     int num_tabs = VGAPARAM->tabs - (*VGACURSOR % VGAPARAM->tabs);
      if(num_tabs == 0) num_tabs = VGAPARAM->tabs;
      // Print the desired number of tab characters
      for(int i=0;i<num_tabs;i++) {

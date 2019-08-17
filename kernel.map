@@ -38,64 +38,64 @@ LOAD obj/portio.o
 LOAD obj/textmode.o
                 0x0000000000100000                . = 0x100000
 
-.text           0x0000000000100000      0xc27
+.text           0x0000000000100000      0xc51
  *(.multiboot)
  .multiboot     0x0000000000100000        0xc obj/boot.o
  *(.text)
  *fill*         0x000000000010000c        0x4 
  .text          0x0000000000100010       0x29 obj/boot.o
                 0x000000000010002b                _start
- .text          0x0000000000100039      0x117 obj/gdt.o
+ .text          0x0000000000100039      0x11e obj/gdt.o
                 0x0000000000100039                gdt_init
-                0x00000000001000bc                gdt_add_entry
- .text          0x0000000000100150      0x1fe obj/kernel_main.o
-                0x0000000000100150                init_kernel
-                0x000000000010020e                kernel_loop
-                0x0000000000100222                kernel_main
-                0x0000000000100280                vga_init
-                0x00000000001002fc                mem_init
-                0x000000000010033a                interrupts_init
- *fill*         0x000000000010034e        0x2 
- .text          0x0000000000100350       0x10 obj/portio.o
-                0x0000000000100350                inportb
-                0x0000000000100356                outportb
- .text          0x0000000000100360      0x519 obj/textmode.o
-                0x0000000000100360                vga_set_bg
-                0x0000000000100399                vga_set_fg
-                0x00000000001003d1                vga_set_color
-                0x00000000001003f8                vga_print_char
-                0x0000000000100469                vga_increment
-                0x0000000000100499                vga_sync_frame
-                0x00000000001004e4                vga_clear
-                0x000000000010053b                vga_movexy
-                0x0000000000100580                vga_param
- .text          0x0000000000100879      0x1a6 lib/libstd.a(printf.o)
-                0x0000000000100879                printf
- .text          0x0000000000100a1f      0x208 lib/libstd.a(string.o)
-                0x0000000000100a1f                strlen
-                0x0000000000100a5c                reverse
-                0x0000000000100b11                itoa
+                0x00000000001000c3                gdt_add_entry
+ .text          0x0000000000100157      0x1fe obj/kernel_main.o
+                0x0000000000100157                init_kernel
+                0x0000000000100215                kernel_loop
+                0x0000000000100229                kernel_main
+                0x0000000000100287                vga_init
+                0x0000000000100303                mem_init
+                0x0000000000100341                interrupts_init
+ *fill*         0x0000000000100355        0xb 
+ .text          0x0000000000100360       0x10 obj/portio.o
+                0x0000000000100360                inportb
+                0x0000000000100366                outportb
+ .text          0x0000000000100370      0x533 obj/textmode.o
+                0x0000000000100370                vga_set_bg
+                0x00000000001003a9                vga_set_fg
+                0x00000000001003e1                vga_set_color
+                0x0000000000100408                vga_print_char
+                0x0000000000100479                vga_increment
+                0x00000000001004a9                vga_sync_frame
+                0x00000000001004f4                vga_clear
+                0x000000000010054b                vga_movexy
+                0x0000000000100590                vga_param
+ .text          0x00000000001008a3      0x1a6 lib/libstd.a(printf.o)
+                0x00000000001008a3                printf
+ .text          0x0000000000100a49      0x208 lib/libstd.a(string.o)
+                0x0000000000100a49                strlen
+                0x0000000000100a86                reverse
+                0x0000000000100b3b                itoa
 
-.iplt           0x0000000000100c28        0x0
- .iplt          0x0000000000100c28        0x0 obj/boot.o
+.iplt           0x0000000000100c58        0x0
+ .iplt          0x0000000000100c58        0x0 obj/boot.o
 
 .text.__x86.get_pc_thunk.ax
-                0x0000000000100c27        0x4
+                0x0000000000100c51        0x4
  .text.__x86.get_pc_thunk.ax
-                0x0000000000100c27        0x4 obj/gdt.o
-                0x0000000000100c27                __x86.get_pc_thunk.ax
+                0x0000000000100c51        0x4 obj/gdt.o
+                0x0000000000100c51                __x86.get_pc_thunk.ax
 
 .text.__x86.get_pc_thunk.bx
-                0x0000000000100c2b        0x4
+                0x0000000000100c55        0x4
  .text.__x86.get_pc_thunk.bx
-                0x0000000000100c2b        0x4 obj/gdt.o
-                0x0000000000100c2b                __x86.get_pc_thunk.bx
+                0x0000000000100c55        0x4 obj/gdt.o
+                0x0000000000100c55                __x86.get_pc_thunk.bx
 
 .text.__x86.get_pc_thunk.cx
-                0x0000000000100c2f        0x4
+                0x0000000000100c59        0x4
  .text.__x86.get_pc_thunk.cx
-                0x0000000000100c2f        0x4 lib/libstd.a(string.o)
-                0x0000000000100c2f                __x86.get_pc_thunk.cx
+                0x0000000000100c59        0x4 lib/libstd.a(string.o)
+                0x0000000000100c59                __x86.get_pc_thunk.cx
 
 .rodata         0x0000000000101000      0x171
  *(.rodata)
@@ -115,20 +115,20 @@ LOAD obj/textmode.o
  *fill*         0x000000000010112f       0x11 
  .rodata        0x0000000000101140       0x31 lib/libstd.a(string.o)
 
-.eh_frame       0x0000000000101174      0x3bc
+.eh_frame       0x0000000000101174      0x3c0
  .eh_frame      0x0000000000101174       0x8c obj/gdt.o
  .eh_frame      0x0000000000101200       0xcc obj/kernel_main.o
                                         0x10c (size before relaxing)
- .eh_frame      0x00000000001012cc      0x1c4 obj/textmode.o
-                                        0x1f0 (size before relaxing)
- .eh_frame      0x0000000000101490       0x24 lib/libstd.a(printf.o)
+ .eh_frame      0x00000000001012cc      0x1c8 obj/textmode.o
+                                        0x1f4 (size before relaxing)
+ .eh_frame      0x0000000000101494       0x24 lib/libstd.a(printf.o)
                                          0x50 (size before relaxing)
- .eh_frame      0x00000000001014b4       0x7c lib/libstd.a(string.o)
+ .eh_frame      0x00000000001014b8       0x7c lib/libstd.a(string.o)
                                          0xa8 (size before relaxing)
 
-.rel.dyn        0x0000000000101530        0x0
- .rel.got       0x0000000000101530        0x0 obj/boot.o
- .rel.iplt      0x0000000000101530        0x0 obj/boot.o
+.rel.dyn        0x0000000000101534        0x0
+ .rel.got       0x0000000000101534        0x0 obj/boot.o
+ .rel.iplt      0x0000000000101534        0x0 obj/boot.o
 
 .data           0x0000000000102000        0x1
  *(.data)
