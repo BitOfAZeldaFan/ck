@@ -32,4 +32,6 @@ typedef struct __GDT_ENTRY_T
 int gdt_add_entry(gdt_entry_t);
 int gdt_init();
 
+extern void reload_gdt(uint32_t);
+
 #endif

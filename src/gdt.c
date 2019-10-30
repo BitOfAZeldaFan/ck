@@ -14,7 +14,6 @@ volatile uint16_t  *const GDTSIZE = (uint16_t*) __gdt_size;
 
 int gdt_init()
 {
-     extern int reload_gdt(uint32_t);
      /* GDT descriptors for flat 4gb */
      gdt_entry_t null_desc = { 0,0,0,0 };
      gdt_entry_t code_desc = { 0,0xffffffff, 0x9a, 0x04 };
@@ -22,8 +21,8 @@ int gdt_init()
      gdt_add_entry(null_desc);
      *GDTSIZE = 0;
      
-     //reload_gdt(__gdt_base_addr);
-     __asm__("lgdt 0x1000");
+     reload_gdt(__gdt_base_addr);
+     //__asm__("lgdt 0x1000");
      return 0;
 }
 
